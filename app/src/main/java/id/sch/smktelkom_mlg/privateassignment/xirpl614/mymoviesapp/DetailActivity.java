@@ -2,6 +2,8 @@ package id.sch.smktelkom_mlg.privateassignment.xirpl614.mymoviesapp;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -21,39 +23,40 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DetailActivity extends AppCompatActivity {
-    private static final String URL_DATA = "https://api.themoviedb.org/3/movie/now_playing?api_key=2c98286f28f52366551d33ae6d07c979";
-    public TextView textViewHeadet;
-    public TextView textViewDescet;
-    public TextView textViewReview;
-    public ImageView imageViewDetail;
-    private Integer mPostkey = null;
+    private static final String URL_DATA = "https://api.nytimes.com/svc/movies/v2/reviews/search.json?api-key=35ffe1ef119e4fcd9655c229d74e6327";
+    public TextView textViewHeaddt;
+    public TextView textViewDescdt;
+    public ImageView imageViewdt;
+    public String url;
+    public String urlGambar;
+    boolean ipress;
+    private Integer postkey = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        mPostkey = getIntent().getExtras().getInt("blog_id");
-        loadRecyclerViewData();
+        postkey = getIntent().getExtras().getInt("Kolv");
+        loadReyclerViewData();
 
+        textViewHeaddt = (TextView) findViewById(R.id.textViewHeaddt);
+        textViewDescdt = (TextView) findViewById(R.id.textViewDescdt);
+        imageViewdt = (ImageView) findViewById(R.id.imageViewdt);
 
-        textViewHeadet = (TextView) findViewById(R.id.textViewHeadet);
-        textViewDescet = (TextView) findViewById(R.id.textViewDescet);
-        textViewReview = (TextView) findViewById(R.id.textViewReview);
-        imageViewDetail = (ImageView) findViewById(R.id.imageViewDetail);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                onBackPressed();
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
-
     }
 
-    private void loadRecyclerViewData() {
+    private void loadReyclerViewData() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading data...");
         progressDialog.show();
@@ -67,18 +70,19 @@ public class DetailActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(s);
                             JSONArray array = jsonObject.getJSONArray("results");
-                            JSONObject o = array.getJSONObject(mPostkey);
+                            JSONObject o = array.getJSONObject(postkey);
 
-                            setTitle("Detail of Your Movie");
-
-                            textViewHeadet.setText(o.getString("original_title"));
-                            textViewDescet.setText(o.getString("popularity"));
-                            textViewReview.setText(o.getString("overview"));
+                            setTitle(o.getString("display_title"));
+                            textViewHeaddt.setText(o.getString("display_title"));
+                            textViewDescdt.setText(o.getString("summary_short"));
+                            url = o.getJSONObject("link").getString("url");
+                            urlGambar = o.getJSONObject("multimedia").getString("src");
 
                             Glide
                                     .with(DetailActivity.this)
-                                    .load("http://image.tmdb.org/t/p/w500" + o.getString("poster_path"))
-                                    .into(imageViewDetail);
+                                    .load(o.getJSONObject("multimedia").getString("src"))
+                                    .into(imageViewdt);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -96,5 +100,7 @@ public class DetailActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+
+
     }
 }

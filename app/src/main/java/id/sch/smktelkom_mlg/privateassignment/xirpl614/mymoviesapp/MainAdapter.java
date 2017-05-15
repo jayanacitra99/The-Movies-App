@@ -21,11 +21,11 @@ import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
-    private List<MainListItem> mainListItems;
+    private List<MainListItem> MainlistItems;
     private Context context;
 
-    public MainAdapter(List<MainListItem> mainListItems, Context context) {
-        this.mainListItems = mainListItems;
+    public MainAdapter(List<MainListItem> listItems, Context context) {
+        this.MainlistItems = listItems;
         this.context = context;
     }
 
@@ -38,23 +38,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final MainListItem mainListItem = mainListItems.get(position);
+        final MainListItem listItem = MainlistItems.get(position);
 
-        holder.textViewHead.setText(mainListItem.getHead());
-        holder.textViewDesc.setText(mainListItem.getDesc());
+        holder.textViewHead.setText(listItem.getHead());
+        holder.textViewDesc.setText(listItem.getDesc());
 
-        Glide
-                .with(context)
-                .load("http://image.tmdb.org/t/p/w500" + mainListItem.getImageUrl())
-                .into(holder.imageViewOtof);
+        Glide.with(context).load(listItem.getImageUrl()).into(holder.imageView);
 
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, mainListItem.getHead() + " is opened", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "You clicked " + listItem.getHead(), Toast.LENGTH_LONG).show();
                 Intent singleBlogIntent = new Intent(context, DetailActivity.class);
                 singleBlogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                singleBlogIntent.putExtra("blog_id", position);
+                singleBlogIntent.putExtra("Jay", position);
                 context.startActivity(singleBlogIntent);
             }
         });
@@ -62,27 +59,23 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mainListItems.size();
+        return MainlistItems.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView textViewHead;
         public TextView textViewDesc;
-        public ImageView imageViewOtof;
+        public ImageView imageView;
         public LinearLayout linearLayout;
-        public TextView textViewReview;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             textViewHead = (TextView) itemView.findViewById(R.id.textViewHead);
             textViewDesc = (TextView) itemView.findViewById(R.id.textViewDesc);
-            imageViewOtof = (ImageView) itemView.findViewById(R.id.imageViewOtof);
+            imageView = (ImageView) itemView.findViewById(R.id.imageView);
             linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
-            textViewReview = (TextView) itemView.findViewById(R.id.textViewReview);
-
-            //textViewHead.setText();
         }
     }
 }

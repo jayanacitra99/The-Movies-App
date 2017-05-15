@@ -30,7 +30,7 @@
             <!--/>-->
 
             <TextView
-                android:id="@+id/textViewHeadet"
+                android:id="@+id/textViewHeaddt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Judul"
@@ -38,7 +38,7 @@
                 android:textSize="12pt" />
 
             <TextView
-                android:id="@+id/textViewDescet"
+                android:id="@+id/textViewDescdt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
