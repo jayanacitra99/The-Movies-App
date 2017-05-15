@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_movies) {
             fragment = new MainFragment();
-            setTitle("");
+            setTitle("Movies");
         } else if (id == R.id.nav_about_us) {
             fragment = new AboutUsFragment();
             setTitle("About Us");

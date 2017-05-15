@@ -23,7 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DetailActivity extends AppCompatActivity {
-    private static final String URL_DATA = "https://api.nytimes.com/svc/movies/v2/reviews/search.json?api-key=35ffe1ef119e4fcd9655c229d74e6327";
+    private static final String URL_DATA = "https://api.themoviedb.org/3/movie/top_rated?api_key=4fe50837ff5764d21ced3d804a732481";
     public TextView textViewHeaddt;
     public TextView textViewDescdt;
     public ImageView imageViewdt;
@@ -39,8 +39,8 @@ public class DetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        postkey = getIntent().getExtras().getInt("Kolv");
-        loadReyclerViewData();
+        postkey = getIntent().getExtras().getInt("Jay");
+        loadRecyclerViewData();
 
         textViewHeaddt = (TextView) findViewById(R.id.textViewHeaddt);
         textViewDescdt = (TextView) findViewById(R.id.textViewDescdt);
@@ -56,7 +56,7 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-    private void loadReyclerViewData() {
+    private void loadRecyclerViewData() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading data...");
         progressDialog.show();
@@ -72,17 +72,14 @@ public class DetailActivity extends AppCompatActivity {
                             JSONArray array = jsonObject.getJSONArray("results");
                             JSONObject o = array.getJSONObject(postkey);
 
-                            setTitle(o.getString("display_title"));
-                            textViewHeaddt.setText(o.getString("display_title"));
-                            textViewDescdt.setText(o.getString("summary_short"));
-                            url = o.getJSONObject("link").getString("url");
-                            urlGambar = o.getJSONObject("multimedia").getString("src");
+                            setTitle(o.getString("original_title"));
+                            textViewHeaddt.setText(o.getString("title"));
+                            textViewDescdt.setText(o.getString("overview"));
 
                             Glide
                                     .with(DetailActivity.this)
-                                    .load(o.getJSONObject("multimedia").getString("src"))
+                                    .load("http://image.tmdb.org/t/p/w500" + o.getString("poster_path"))
                                     .into(imageViewdt);
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();

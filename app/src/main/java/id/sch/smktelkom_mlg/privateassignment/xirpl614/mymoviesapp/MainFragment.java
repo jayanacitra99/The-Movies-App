@@ -31,15 +31,15 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class MainFragment extends Fragment {
-    private static final String URL_DATA = "https://api.nytimes.com/svc/movies/v2/reviews/search.json?api-key=35ffe1ef119e4fcd9655c229d74e6327";
+    private static final String URL_DATA = "https://api.themoviedb.org/3/movie/top_rated?api_key=4fe50837ff5764d21ced3d804a732481";
     public TextView textViewHead;
     public TextView textViewDesc;
-    public ImageView imageViewUrl;
+    public ImageView imageView;
     public String urlgambar;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<MainListItem> MainlistItems;
-
+    private Integer postkey = null;
     public MainFragment() {
         // Required empty public constructor
     }
@@ -54,8 +54,12 @@ public class MainFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        MainlistItems = new ArrayList<>();
+        textViewHead = (TextView) view.findViewById(R.id.textViewHead);
+        textViewDesc = (TextView) view.findViewById(R.id.textViewDesc);
+        imageView = (ImageView) view.findViewById(R.id.imageView);
 
+
+        MainlistItems = new ArrayList<>();
         loadRecyclerViewData();
         return view;
     }
@@ -71,6 +75,8 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onResponse(String s) {
                         progressDialog.dismiss();
+
+
                         try {
                             JSONObject jsonObject = new JSONObject(s);
                             JSONArray array = jsonObject.getJSONArray("results");
@@ -78,9 +84,9 @@ public class MainFragment extends Fragment {
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject o = array.getJSONObject(i);
                                 MainListItem item = new MainListItem(
-                                        o.getString("display_title"),
-                                        o.getString("summary_short"),
-                                        o.getJSONObject("multimedia").getString("src"));
+                                        o.getString("title"),
+                                        o.getString("overview"),
+                                        o.getString("poster_path"));
 
                                 MainlistItems.add(item);
                             }
@@ -100,5 +106,6 @@ public class MainFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
     }
+
 
 }
