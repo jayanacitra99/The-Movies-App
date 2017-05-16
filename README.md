@@ -33,6 +33,7 @@ Library Volley dan fitur Glide serta menggabungkannya dengan RecyclerView menjad
 <p> Menampilkan daftar film top rated </p> <br>
 
 <h1> Screenshot Aplikasi </h1>
+
 ![screenshot_20170515-174803](https://cloud.githubusercontent.com/assets/22091034/26116509/9752eac0-3a8d-11e7-84bd-f406f6b73f25.png)
 
 ![screenshot_20170516-230923](https://cloud.githubusercontent.com/assets/22091034/26116309/ecff34f2-3a8c-11e7-92ae-ad85a9bdaca4.png)
